@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 import User from "../Models/userModel.js";
 import jwt from "jsonwebtoken";
+import { imageUploadUtils } from "../helper/cloudinary.js";
 //registration
 export const registerUser = async (req, res) => {
   const { name, email, password, picture } = req.body;
@@ -87,6 +88,29 @@ export const loginUser = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Some error occured while registering the user",
+    });
+  }
+};
+//this is for uploading profile picture
+export const handleImageUpload = async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({
+        success: false,
+        message: "No file uploaded",
+      });
+    }
+    const result = await imageUploadUtils(req.file);
+    res.status(200).json({
+      success: true,
+      url: result.secure_url,
+      public_id: result.public_id,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Error occured while uploading image",
     });
   }
 };
