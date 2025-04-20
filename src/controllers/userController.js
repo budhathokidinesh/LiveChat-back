@@ -52,7 +52,7 @@ export const loginUser = async (req, res) => {
     //comparing entered password and existing password
     const comparePassword = await bcrypt.compare(
       password,
-      existingUser.password
+      existingUser?.password
     );
 
     if (!comparePassword) {
@@ -73,7 +73,7 @@ export const loginUser = async (req, res) => {
       { expiresIn: "30m" }
     );
     //send response
-    res.status(200).json({
+    res.cookie("token", token, { httpOnly: true, secure: false }).json({
       success: true,
       message: "Login successful",
       token,
@@ -111,6 +111,21 @@ export const handleImageUpload = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Error occured while uploading image",
+    });
+  }
+};
+//this is for logout user
+export const logoutUser = async (req, res) => {
+  try {
+    res.clearCookie("token").json({
+      success: true,
+      message: "Logged out successfully",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Some error occurred while logout",
     });
   }
 };
