@@ -6,6 +6,8 @@ import cors from "cors";
 const PORT = process.env.PORT || 8000;
 
 //importing routes
+import authRoutes from "./src/routes/authRoutes.js";
+import messageRoutes from "./src/routes/messageRoutes.js";
 import userRoutes from "./src/routes/userRoutes.js";
 import { errorHandler } from "./src/middleware/errorHandler.js";
 
@@ -42,7 +44,10 @@ io.on("connection", (socket) => {
 });
 
 //Endpoints
-app.use("/api/user", userRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/message", messageRoutes);
+app.use("/api/users", userRoutes);
+// app.use("/api/chat", chatRoutes);
 
 // app.get("/", (req, res) => {
 //   res.send("Server is live");
