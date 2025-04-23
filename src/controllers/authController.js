@@ -73,17 +73,23 @@ export const loginUser = async (req, res) => {
       { expiresIn: "30m" }
     );
     //send response
-    res.cookie("token", token, { httpOnly: true, secure: false }).json({
-      success: true,
-      message: "Login successful",
-      token,
-      user: {
-        id: existingUser._id,
-        email: existingUser.email,
-        name: existingUser.name,
-        picture: existingUser.picture,
-      },
-    });
+    res
+      .cookie("token", token, {
+        httpOnly: true,
+        secure: false,
+        sameSite: "Lax",
+      })
+      .json({
+        success: true,
+        message: "Login successful",
+        token,
+        user: {
+          id: existingUser._id,
+          email: existingUser.email,
+          name: existingUser.name,
+          picture: existingUser.picture,
+        },
+      });
   } catch (error) {
     res.status(500).json({
       success: false,
