@@ -27,9 +27,6 @@ io.on("connection", (socket) => {
     if (receiverSocketId) {
       io.to(receiverSocketId).emit("receive-message", message);
     }
-
-    // Also send to sender (optional)
-    socket.emit("receive-message", message);
   });
   //socket.on() is used to listen to the event. Can be used both on client and server side
   socket.on("disconnect", () => {
