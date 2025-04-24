@@ -33,9 +33,9 @@ app.use("/api/message", messageRoutes);
 app.use("/api/users", userRoutes);
 // app.use("/api/chat", chatRoutes);
 
-// app.get("/", (req, res) => {
-//   res.send("Server is live");
-// });
+app.get("/", (req, res) => {
+  res.send("Server is live");
+});
 //this is for dbconnect
 import { dbConnect } from "./dbConfig/dbConfig.js";
 
